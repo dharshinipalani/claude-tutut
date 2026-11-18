@@ -1,0 +1,84 @@
+/* ============================================================
+   tutut — character animations
+   The stage gets one state class: .alert  .waiting  .yes  .no
+   Works for the built-in SVG (ears/eyes animate separately) and
+   for a custom image (whole-image moves only).
+   ============================================================ */
+
+.stage .char {
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 90%;
+}
+.stage img.char { object-fit: contain; }
+
+/* parts of the built-in SVG pivot from their own base */
+.tutut .ear  { transform-box: fill-box; transform-origin: 50% 100%; transition: transform .25s ease; }
+.tutut .eye  { transform-box: fill-box; transform-origin: 50% 50%; animation: blink 4.2s infinite; }
+.tutut .eye:nth-of-type(2) { animation-delay: .04s; }
+
+@keyframes blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  97%           { transform: scaleY(.12); }
+}
+
+/* ---------- alert: pops in, bounces, ears perk + twitch ---------- */
+.stage.alert .char { animation: pop .55s cubic-bezier(.3,1.6,.5,1) both, bounce 1.6s .6s ease-in-out infinite; }
+.stage.alert .ear-left  { animation: twitch-l 2.4s .5s ease-in-out infinite; }
+.stage.alert .ear-right { animation: twitch-r 2.4s .9s ease-in-out infinite; }
+
+@keyframes pop {
+  0%   { transform: translateY(-40px) scale(.4); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  40%      { transform: translateY(-5px) scale(.97, 1.03); }
+  60%      { transform: translateY(0) scale(1.04, .96); }
+}
+@keyframes twitch-l {
+  0%, 70%, 100% { transform: rotate(0); }
+  78%           { transform: rotate(-14deg); }
+  86%           { transform: rotate(4deg); }
+}
+@keyframes twitch-r {
+  0%, 70%, 100% { transform: rotate(0); }
+  78%           { transform: rotate(14deg); }
+  86%           { transform: rotate(-4deg); }
+}
+
+/* ---------- waiting (needs your input): slow bob, curious tilt ---------- */
+.stage.waiting .char { animation: pop .55s cubic-bezier(.3,1.6,.5,1) both, bob 2.8s .6s ease-in-out infinite; }
+.stage.waiting .ear-right { transform: rotate(18deg); }
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-4px) rotate(3deg); }
+}
+
+/* ---------- yes (allowed): happy hop, ears flick ---------- */
+.stage.yes .char { animation: hop .5s cubic-bezier(.3,1.5,.5,1) both; }
+.stage.yes .ear-left  { transform: rotate(-20deg); }
+.stage.yes .ear-right { transform: rotate(20deg); }
+.stage.yes .eye { animation: none; transform: scaleY(.25); } /* happy squint */
+@keyframes hop {
+  0%   { transform: translateY(0) scale(1); }
+  35%  { transform: translateY(-14px) scale(.95, 1.06); }
+  70%  { transform: translateY(0) scale(1.06, .94); }
+  100% { transform: none; }
+}
+
+/* ---------- no (denied): shake, ears droop ---------- */
+.stage.no .char { animation: shake .45s ease-in-out both; }
+.stage.no .ear-left  { transform: rotate(-55deg); }
+.stage.no .ear-right { transform: rotate(55deg); }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px) rotate(-4deg); }
+  40%      { transform: translateX(6px) rotate(4deg); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage .char, .tutut .ear, .tutut .eye { animation: none !important; }
+}

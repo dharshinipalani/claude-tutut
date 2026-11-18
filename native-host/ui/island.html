@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>tutut</title>
+  <link rel="stylesheet" href="island.css">
+  <link rel="stylesheet" href="character/character.css">
+</head>
+<body>
+  <div id="island" class="island" data-kind="permission" aria-live="assertive">
+    <div class="glow"></div>
+
+    <div class="stage" id="stage">
+      <!-- character is inserted here by island.js -->
+      <span class="badge" id="badge">!</span>
+    </div>
+
+    <div class="content">
+      <div class="headline">
+        <span class="dot"></span>
+        <span class="lead" id="lead">Claude wants to use</span>
+        <span class="chip" id="tool"></span>
+        <span class="from" id="fromWrap">from <b id="connector"></b></span>
+      </div>
+      <div class="detail" id="detail"></div>
+
+      <div class="actions">
+        <button class="btn ghost" id="btnNo"     data-decision="deny">Deny</button>
+        <button class="btn soft"  id="btnAlways" data-decision="always">Always allow</button>
+        <span class="more" id="more"></span>
+        <button class="btn primary" id="btnYes"  data-decision="allow">Allow once</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="island.js"></script>
+</body>
+</html>
